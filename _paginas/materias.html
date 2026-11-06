@@ -1,0 +1,26 @@
+<!--title: Matérias · Crise Política do Corinthians-->
+<!--desc: Todas as matérias do portal Crise Política do Corinthians, com busca e filtro por editoria.-->
+<!--page: materias-->
+<!--nav: materias.html-->
+<main>
+  <section class="topo-pg">
+    <div class="wrap">
+      <p class="eyebrow" data-reveal>Arquivo</p>
+      <h1 class="titulo-pg" data-reveal style="--d:.08s">Todas as <b>matérias</b></h1>
+      <div class="ferramentas" data-reveal style="--d:.16s">
+        <label class="busca">
+          <span class="sr-only">Buscar matérias</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg>
+          <input id="busca" type="search" placeholder="Buscar matérias" autocomplete="off">
+        </label>
+        <div class="filtros" id="filtros" role="group" aria-label="Filtrar por editoria"></div>
+      </div>
+    </div>
+  </section>
+  <section class="lista">
+    <div class="wrap">
+      <p class="resumo-lista" id="resumo" aria-live="polite"></p>
+      <div class="grade" id="grade"></div>
+    </div>
+  </section>
+</main>
