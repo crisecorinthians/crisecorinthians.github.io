@@ -262,11 +262,11 @@
 
       function desenhar() {
         var termo = campo.value.trim().toLowerCase();
-        var termos = termo.normalize('NFD').replace(/[̀-ͯ]/g, '').split(/\s+/).filter(Boolean);
+        var termos = Blog.semAcento(termo).split(/\s+/).filter(Boolean);
         var achadas = lista.filter(function (m) {
           if (editoria && m.marcadores.indexOf(editoria) < 0) return false;
           if (!termos.length) return true;
-          var base = m.busca.normalize('NFD').replace(/[̀-ͯ]/g, '');
+          var base = Blog.semAcento(m.busca);
           return termos.every(function (t) { return base.indexOf(t) >= 0; });
         });
         $$('.filtro', filtros).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-ed') === editoria ? 'true' : 'false'); });

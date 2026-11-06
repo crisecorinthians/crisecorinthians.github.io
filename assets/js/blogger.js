@@ -99,8 +99,8 @@
   }
 
   /* ---------- limpeza do HTML vindo do Blogger ---------- */
-  var BLOCOS = 'P,DIV,FIGURE,H1,H2,H3,H4,H5,H6,BLOCKQUOTE,UL,OL,TABLE,IFRAME,HR,PRE';
-  function ehBloco(n) { return n.nodeType === 1 && BLOCOS.indexOf(n.nodeName) >= 0; }
+  var BLOCOS = /^(P|DIV|FIGURE|H[1-6]|BLOCKQUOTE|UL|OL|TABLE|IFRAME|HR|PRE)$/;
+  function ehBloco(n) { return n.nodeType === 1 && BLOCOS.test(n.nodeName); }
 
   function desembrulhar(el) {
     var pai = el.parentNode;
@@ -264,7 +264,24 @@
       alvo.parentNode.insertBefore(w, alvo);
       w.appendChild(f);
       if (alvo !== f) alvo.remove();
+      // o código de incorporação do SoundCloud traz, logo abaixo do player,
+      // uma linha de crédito com links ("Conta · Nome do áudio"): sai
+      if (/soundcloud/.test(src)) {
+        var prox = w.nextElementSibling;
+        while (prox && prox.nodeName === 'P' && vazio(prox)) prox = prox.nextElementSibling;
+        if (prox && ehCreditoSoundcloud(prox)) prox.remove();
+      }
     });
+  }
+  function ehCreditoSoundcloud(el) {
+    var links = el.querySelectorAll('a');
+    if (!links.length) return false;
+    var resto = texto(el);
+    for (var i = 0; i < links.length; i++) {
+      if (!/soundcloud\.com/i.test(links[i].getAttribute('href') || '')) return false;
+      resto = resto.replace(texto(links[i]), '');
+    }
+    return /^[\s·•|\-–—]*$/.test(resto);
   }
 
   /* 2 ou mais figuras seguidas -> galeria */
@@ -361,7 +378,10 @@
   }
 
   /* ---------- Linha do tempo (Página "Linha do tempo" no Blogger) ---------- */
-  function normal(s) { return (s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/\s+/g, ' ').trim(); }
+  // acentos combinantes (U+0300 a U+036F), montados por código para o arquivo ficar só em ASCII
+  var ACENTOS = new RegExp('[' + String.fromCharCode(0x300) + '-' + String.fromCharCode(0x36f) + ']', 'g');
+  function semAcento(s) { return (s || '').normalize('NFD').replace(ACENTOS, ''); }
+  function normal(s) { return semAcento(s).toLowerCase().replace(/\s+/g, ' ').trim(); }
 
   function linhaDoTempo() {
     return buscarFeed('pages').then(function (paginas) {
@@ -392,6 +412,8 @@
     editorias: editorias,
     linhaDoTempo: linhaDoTempo,
     imgTamanho: imgTamanho,
+    semAcento: semAcento,
+    analisar: analisar,
     esc: esc,
     BLOG: BLOG
   };
