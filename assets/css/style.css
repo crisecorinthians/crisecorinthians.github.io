@@ -73,7 +73,7 @@ ul, ol { padding: 0; }
 }
 .nav-logo { display: flex; align-items: center; gap: 10px; justify-self: start; transition: opacity .4s var(--ease), transform .4s var(--ease); }
 .nav-logo img { width: 30px; height: auto; }
-.nav-logo span { font-size: 11px; line-height: 1.1; letter-spacing: .04em; font-weight: 300; text-transform: uppercase; }
+.nav-logo span { font-size: 11px; line-height: 1.1; letter-spacing: .16em; font-weight: 300; text-transform: uppercase; }
 .nav-logo b { display: block; font-weight: 900; font-size: 13px; letter-spacing: .02em; }
 .home .nav:not(.solida) .nav-logo { opacity: 0; transform: translateY(-6px); pointer-events: none; }
 
