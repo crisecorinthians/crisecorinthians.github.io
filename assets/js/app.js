@@ -197,11 +197,6 @@
       (m.capaCard ? '<img src="' + esc(m.capaCard) + '" alt="' + esc(m.capaAlt) + '" loading="lazy">' : '') +
       (comTag && m.editoria ? '<span class="tag">' + esc(m.editoria) + '</span>' : '') + '</div>';
   }
-  function cardVertical(m, i) {
-    return '<a class="card card-v" href="' + m.url + '" data-reveal style="--d:' + (Math.min(i, 5) * 0.08) + 's">' +
-      capaHTML(m, true) + '<h3>' + esc(m.titulo) + '</h3>' +
-      '<p class="meta"><span>' + esc(m.data) + '</span><span>' + m.leitura + ' min de leitura</span></p></a>';
-  }
   function cardHorizontal(m, i) {
     return '<a class="card card-h" href="' + m.url + '" data-reveal style="--d:' + ((i % 3) * 0.08) + 's">' +
       capaHTML(m, false) +
@@ -230,17 +225,16 @@
      ========================================================================== */
   var paginas = {};
 
+  // Home: a mais recente em destaque e as demais na grade (até 10 no total;
+  // o arquivo completo, com busca e filtros, fica na página Matérias)
   paginas.home = function () {
-    var caixa = $('#carrossel');
-    var trilho = $('.trilho', caixa);
-    trilho.innerHTML = esqueletos(4, 'card-v');
+    var grade = $('#grade-home');
+    grade.innerHTML = esqueletos(6, 'card-h');
     Blog.materias().then(function (lista) {
-      if (!lista.length) { falha(trilho, 'As primeiras matérias estão a caminho.'); return; }
-      trilho.innerHTML = lista.slice(0, 10).map(cardVertical).join('');
-      caixa.style.setProperty('--seta-top', ($('.capa', trilho).offsetHeight / 2) + 'px');
-      carrossel(caixa);
-      revelar(caixa);
-    }).catch(function () { falha(trilho); });
+      if (!lista.length) { falha(grade, 'As primeiras matérias estão a caminho.'); return; }
+      grade.innerHTML = lista.slice(0, 10).map(function (m, i) { return i === 0 ? cardDestaque(m) : cardHorizontal(m, i - 1); }).join('');
+      revelar(grade);
+    }).catch(function () { falha(grade); });
   };
 
   paginas.materias = function () {
