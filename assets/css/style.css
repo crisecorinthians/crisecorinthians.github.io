@@ -146,15 +146,11 @@ ul, ol { padding: 0; }
 .marca-txt { text-transform: uppercase; line-height: .98; letter-spacing: -.012em; }
 .marca-l { display: block; overflow: hidden; padding-bottom: .04em; }
 .marca-l > span { display: block; animation: sobe 1s var(--ease) both; }
-.marca-l1 { font-weight: 300; font-size: .79em; letter-spacing: -.01em; }
+.marca-l1 { font-weight: 300; font-size: .86em; letter-spacing: .1em; }
 .marca-l1 > span { animation-delay: .25s; }
 .marca-l2 { font-weight: 900; }
 .marca-l2 > span { animation-delay: .45s; }
 .marca-simbolo { width: 1.62em; flex: none; animation: aparece 1.1s var(--ease) .8s both; }
-.hero-sub {
-  margin-top: clamp(18px, 2.4vw, 34px); font-size: clamp(16px, 1.6vw, 22px); font-weight: 300; max-width: 34ch;
-  animation: sobe-leve 1s var(--ease) 1.05s both;
-}
 .hero-seta {
   position: absolute; left: 50%; bottom: 26px; width: 44px; height: 44px; margin-left: -22px;
   display: grid; place-items: center; animation: aparece 1s var(--ease) 1.4s both;
